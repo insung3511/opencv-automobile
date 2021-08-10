@@ -1,0 +1,4 @@
+numpy==1.19.5
+pandas==1.2.0
+matplotlib==3.3.3
+opencv_python==4.5.1.48
