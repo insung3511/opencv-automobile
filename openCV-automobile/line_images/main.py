@@ -4,7 +4,7 @@ import numpy as np
 
 def region_of_interest(img, vertices):
     mask = np.zeros_like(img)
-    match_mask_color = 105
+    match_mask_color = 105      # default 105
     cv2.fillPoly(mask, vertices, match_mask_color)
     masked_image = cv2.bitwise_and(img, mask)
     return masked_image
@@ -15,7 +15,7 @@ def drow_the_lines(img, lines):
 
     for line in lines:
         for x1, y1, x2, y2 in line:
-            cv2.line(blank_image, (x1,y1), (x2,y2), (50, 255, 50), thickness=4)
+            cv2.line(blank_image, (x1,y1), (x2,y2), (0, 0, 255), thickness=2)
 
     img = cv2.addWeighted(img, 1, blank_image, 1, 0.0)
     return img
@@ -30,20 +30,20 @@ def process(image):
         (width, height)
     ]
     gray_image = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
-    canny_image = cv2.Canny(gray_image, 100, 120)
+    canny_image = cv2.Canny(gray_image, 100, 120)           # default 100, 120
     cropped_image = region_of_interest(canny_image,
                     np.array([region_of_interest_vertices], np.int32),)
     lines = cv2.HoughLinesP(cropped_image,
-                            rho=1,              # default 2
+                            rho=2,              # default 2
                             theta=np.pi/180,
-                            threshold=80,       # default 50
+                            threshold=50,       # default 50
                             lines=np.array([]),
-                            minLineLength=50,   # defualt 40
-                            maxLineGap=100)
+                            minLineLength=40,   # defualt 40
+                            maxLineGap=100)     # defualt 100
     image_with_lines = drow_the_lines(image, lines)
     return image_with_lines
 
-cap = cv2.VideoCapture('../videos/harder_challenge_video.mp4')
+cap = cv2.VideoCapture('../videos/challenge.mp4')
 #cap = cv2.VideoCapture(0)
 counter = 0
 

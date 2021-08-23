@@ -156,6 +156,7 @@ def sliding_window(img, nwindows=9, margin=150, minpix = 1, draw_windows=True):
     out_img[nonzeroy[left_lane_inds], nonzerox[left_lane_inds]] = [255, 0, 100]
     out_img[nonzeroy[right_lane_inds], nonzerox[right_lane_inds]] = [0, 100, 255]
     
+    print("Coordinate : ", ploty)
     return out_img, (left_fitx, right_fitx), (left_fit_, right_fit_), ploty
 
 def get_curve(img, leftx, rightx):
@@ -176,7 +177,7 @@ def get_curve(img, leftx, rightx):
     lane_center_position = (r_fit_x_int + l_fit_x_int) /2
     center = (car_pos - lane_center_position) * xm_per_pix / 10
 
-    print(left_curverad, right_curverad, center)
+    print("Curved : ", left_curverad, right_curverad, center)
     return (left_curverad, right_curverad, center)
     
 
@@ -188,7 +189,7 @@ def draw_lanes(img, left_fit, right_fit):
     right = np.array([np.flipud(np.transpose(np.vstack([right_fit, ploty])))])
     points = np.hstack((left, right))
     
-    cv2.fillPoly(color_img, np.int_(points), (60,200,255))
+    cv2.fillPoly(color_img, np.int_(points), (60,255,255))
     inv_perspective = inv_perspective_warp(color_img)
     inv_perspective = cv2.addWeighted(img, 1, inv_perspective, 0.7, 0)
     return inv_perspective
